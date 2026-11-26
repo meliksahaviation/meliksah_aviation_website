@@ -3,6 +3,7 @@
   --navy:#071422; --navy-light:#0c2035; --ink:#122234; --muted:#566575;
   --paper:#fff; --soft:#f2f5f8; --line:#d7dfe7; --blue:#386bdf;
   --light-blue:#a9c3fa; --sans:Arial,'Segoe UI',sans-serif; --width:1320px;
+  --page-gutter:clamp(18px,4vw,56px);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:40px}
@@ -17,7 +18,9 @@ a,button,summary,select{-webkit-tap-highlight-color:transparent}
 ::selection{background:#386bdf35}
 :focus-visible{outline:3px solid #769eff;outline-offset:5px}
 main:focus{outline:none}
-.wrap{width:min(var(--width),calc(100% - 112px));margin-inline:auto}
+.wrap{width:min(var(--width),calc(100% - var(--page-gutter) - var(--page-gutter)));margin-inline:auto;min-width:0}
+main{min-width:0}
+.hero-layout>*,.section-heading>*,.focus-row>*,.research-note>*,.featured-product>*,.company-layout>*,.discipline>*,.atlas-hero-layout>*,.feature-grid>*,.detail-grid>*,.about-layout>*,.contact-layout>*,.footer-grid>*{min-width:0}
 .skip-link{position:fixed;z-index:100;left:14px;top:10px;padding:10px 20px;background:white;transform:translateY(-180%)}
 .skip-link:focus{transform:translateY(0)}
 h1,h2,h3{font-weight:500;line-height:1.1;letter-spacing:-.045em;margin:0 0 20px;text-wrap:balance}
@@ -219,7 +222,6 @@ select{appearance:none;padding-right:42px}
 .error-page>p:not(.eyebrow){color:var(--muted)}
 @media(min-width:1600px){.hero-layout{min-height:560px;padding-block:60px}}
 @media(max-width:1100px){
-  .wrap{width:calc(100% - 76px)}
   .main-nav{gap:28px}.main-nav .nav-contact{margin-left:0}
   .hero-layout{gap:35px;min-height:500px;padding-block:48px 52px}
   .hero h1{font-size:clamp(3.1rem,5.5vw,4.25rem)}
@@ -230,7 +232,6 @@ select{appearance:none;padding-right:42px}
   .footer-grid{gap:45px}
 }
 @media(max-width:800px){
-  .wrap{width:calc(100% - 44px)}
   h2{font-size:2rem}
   .utility-bar{display:none}
   .header-inner{min-height:85px;gap:20px;flex-wrap:wrap;padding-block:14px}
@@ -308,7 +309,6 @@ select{appearance:none;padding-right:42px}
   .error-page{padding-block:75px}
 }
 @media(max-width:420px){
-  .wrap{width:calc(100% - 36px)}
   .brand{gap:10px}.brand img{width:45px;height:45px}.brand>span{font-size:.91rem}.brand small{font-size:.58rem}
   .eyebrow{font-size:.69rem;letter-spacing:.13em}
   .hero-layout{padding-block:36px 32px}
@@ -316,11 +316,6 @@ select{appearance:none;padding-right:42px}
   .hero-lede{font-size:1rem;line-height:1.7}
   .button-row{gap:12px}
   .button{padding-inline:19px;font-size:.9rem}
-  .hero-sectors{grid-template-columns:1fr}
-  .hero-sectors>a{padding:17px 0;gap:5px}
-  .hero-sectors>a+a{padding-left:0;border-left:0;border-top:1px solid #ffffff15}
-  .hero-sectors span{font-size:.63rem;letter-spacing:.12em}
-  .hero-sectors strong{font-size:1rem}
   h2{font-size:2rem}
   .focus-title h3{font-size:2rem}
   .atlas-identity-panel{gap:20px}.atlas-identity-panel img{width:78px;height:78px;border-radius:17px}.atlas-identity-panel h2,.atlas-identity-panel h3{font-size:2rem}.atlas-identity-panel p{font-size:.86rem}.product-label{font-size:.61rem}
@@ -341,3 +336,28 @@ select{appearance:none;padding-right:42px}
 .focus-description>p,.product-copy>p,.about-layout>div>p,.discipline-lede{max-width:62ch}
 .product-section-compact .featured-product{border-top:0;padding-top:0}
 @media(max-width:800px){.section-heading>.section-intro{padding-top:0}}
+
+/* Give long copy a consistent edge and let grid content shrink on narrow screens. */
+.hero-lede,.section-intro,.focus-description>p,.research-note p,.product-copy>p,
+.process-list p,.contact-band p:not(.eyebrow),.lede,.discipline-lede,
+.feature-grid p,.detail-grid p,.about-layout>div>p:not(.eyebrow),
+.contact-direct>p:not(.eyebrow):not(.copy-status),.contact-options>p,
+.prose p,details>p{
+  text-align:justify;
+  text-align-last:start;
+  hyphens:auto;
+}
+
+@media(max-width:600px){
+  .hero-sectors{grid-template-columns:1fr}
+  .hero-sectors>a{padding:17px 0;gap:5px}
+  .hero-sectors>a+a{padding-left:0;border-left:0;border-top:1px solid #ffffff15}
+  .hero-sectors span{font-size:.63rem;letter-spacing:.12em}
+  .hero-sectors strong{font-size:1rem}
+  .button-row{display:grid;grid-template-columns:minmax(0,1fr);align-items:stretch}
+  .button-row>.button{width:100%;max-width:100%}
+}
+
+@media(max-width:360px){
+  p:not(.eyebrow),.lede,details>p{ text-align:start;hyphens:manual }
+}
